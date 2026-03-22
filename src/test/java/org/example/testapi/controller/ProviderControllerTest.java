@@ -1,9 +1,11 @@
 package org.example.testapi.controller;
 
 import org.example.testapi.model.Provider;
+import org.example.testapi.security.JwtAuthenticationFilter;
 import org.example.testapi.service.ProviderService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,6 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(ProviderController.class)
+@AutoConfigureMockMvc(addFilters = false)
 class ProviderControllerTest {
 
     @Autowired
@@ -29,6 +32,9 @@ class ProviderControllerTest {
 
     @MockitoBean
     private ProviderService providerService;
+
+    @MockitoBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     private Provider createTestProvider(Long id, String name, String serviceType) {
         Provider provider = new Provider();

@@ -4,9 +4,11 @@ import org.example.testapi.dto.TaskRequest;
 import org.example.testapi.model.Client;
 import org.example.testapi.model.Provider;
 import org.example.testapi.model.Task;
+import org.example.testapi.security.JwtAuthenticationFilter;
 import org.example.testapi.service.TaskService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,6 +27,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(TaskController.class)
+@AutoConfigureMockMvc(addFilters = false)
 class TaskControllerTest {
 
     @Autowired
@@ -32,6 +35,9 @@ class TaskControllerTest {
 
     @MockitoBean
     private TaskService taskService;
+
+    @MockitoBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     private Task createTestTask(Long id, String title, String status) {
         Client client = new Client();
